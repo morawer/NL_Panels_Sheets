@@ -38,6 +38,7 @@ itemName = df["Item name"].values
 po = df["Order no PO"].values
 date = df["New Date ES"].values
 qty = df["Ordered qty"].values
+week = df["Week"].values
 
 for line in range(len(mo)):
     
@@ -57,22 +58,38 @@ for line in range(len(mo)):
             moNew = mo[line]
         except:
             msg_error(co, line, mo)
-            
+
+newWeek = True
+weekNumber = 0
+
 for line in range(len(mo)):
-    #Create the excel
-    excel_labels = openpyxl.load_workbook()
-    sheet_labels = excel_labels.active
-    #Write the title in every column
-    cell_A1 = sheet_labels.cell(row=1, column=1)
-    cell_A1.value = 'Item Nr'
-    cell_A2 = sheet_labels.cell(row=1, column=2)
-    cell_A2.value = 'Descripción'
-    cell_A3 = sheet_labels.cell(row=1, column=3)
-    cell_A3.value = 'MO'
-    cell_A4 = sheet_labels.cell(row=1, column=4)
-    cell_A4.value = 'PO'
-    cell_A5 = sheet_labels.cell(row=1, column=4)
-    cell_A5.value = 'CO España'
+    if newWeek is True:
+        #Create the excel
+        excel_labels = openpyxl.load_workbook()
+        sheet_labels = excel_labels.active
+        #Write the title in every column
+        cell_A1 = sheet_labels.cell(row=1, column=1)
+        cell_A1.value = 'Item Nr'
+        cell_A2 = sheet_labels.cell(row=1, column=2)
+        cell_A2.value = 'Descripción'
+        cell_A3 = sheet_labels.cell(row=1, column=3)
+        cell_A3.value = 'MO'
+        cell_A4 = sheet_labels.cell(row=1, column=4)
+        cell_A4.value = 'PO'
+        cell_A5 = sheet_labels.cell(row=1, column=4)
+        cell_A5.value = 'CO España'
+    if weekNumber == 0 or newWeek is True:
+        for qty in qty[line]:
+            rowTotal = rowTotal + qty + line
+            cell_itemNumber = sheet_labels.cell(row=1 + rowTotal, column=1)
+            cell_itemNumber.value = itemNumber[line]
+            cell_description = sheet_labels.cell(row=1 + rowTotal, column=2)
+            cell_description.value = itemName[line]
+            
+        
+            
+    
+    
 
 
 
