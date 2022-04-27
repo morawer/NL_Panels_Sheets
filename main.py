@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from reportlab.pdfgen import canvas
+import openpyxl
 
 #Sheets sizes
 width = 841
@@ -21,6 +22,9 @@ pathDestination = "/home/dani/Projects/NL_Panels_Sheets/destination/"
 #The info input is trough of excel file
 excel = "/home/dani/Projects/NL_Panels_Sheets/excel/Overview panels ESP 0426.xlsx"
 df = pd.read_excel(excel, sheet_name="Database 20220421")
+
+
+
 
 #If destination folder does not exist, the folder is created automatically
 if not os.path.exists(pathDestination):
@@ -53,3 +57,23 @@ for line in range(len(mo)):
             moNew = mo[line]
         except:
             msg_error(co, line, mo)
+            
+for line in range(len(mo)):
+    #Create the excel
+    excel_labels = openpyxl.load_workbook()
+    sheet_labels = excel_labels.active
+    #Write the title in every column
+    cell_A1 = sheet_labels.cell(row=1, column=1)
+    cell_A1.value = 'Item Nr'
+    cell_A2 = sheet_labels.cell(row=1, column=2)
+    cell_A2.value = 'Descripción'
+    cell_A3 = sheet_labels.cell(row=1, column=3)
+    cell_A3.value = 'MO'
+    cell_A4 = sheet_labels.cell(row=1, column=4)
+    cell_A4.value = 'PO'
+    cell_A5 = sheet_labels.cell(row=1, column=4)
+    cell_A5.value = 'CO España'
+
+
+
+        
