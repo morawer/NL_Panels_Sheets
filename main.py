@@ -10,6 +10,9 @@ A4 = [width, height]
 
 #Declare variables
 moNew = 0
+newWeek = False
+weekNumber = 0
+rowTotal = 0
 
 def msg_error(co, line, mo):
     print("===========================================================================")
@@ -22,9 +25,6 @@ pathDestination = "/home/dani/Projects/NL_Panels_Sheets/destination/"
 #The info input is trough of excel file
 excel = "/home/dani/Projects/NL_Panels_Sheets/excel/Overview panels ESP 0426.xlsx"
 df = pd.read_excel(excel, sheet_name="Database 20220421")
-
-
-
 
 #If destination folder does not exist, the folder is created automatically
 if not os.path.exists(pathDestination):
@@ -41,7 +41,6 @@ qty = df["Ordered qty"].values
 week = df["Week"].values
 
 for line in range(len(mo)):
-    
     if mo[line] != moNew:
         try:
             pdf_panelsNL = canvas.Canvas(
@@ -59,13 +58,13 @@ for line in range(len(mo)):
         except:
             msg_error(co, line, mo)
 
-newWeek = True
-weekNumber = 0
-
 for line in range(len(mo)):
-    if newWeek is True:
+    if weekNumber != week[line]:
+        if weekNumber != 0:
+            excel_labels.save(f'ETIQUETAS SEMANA {weekNumber}.xlsx')
+            rowTotal = 0  
         #Create the excel
-        excel_labels = openpyxl.load_workbook()
+        excel_labels = openpyxl.Workbook()
         sheet_labels = excel_labels.active
         #Write the title in every column
         cell_A1 = sheet_labels.cell(row=1, column=1)
@@ -76,21 +75,22 @@ for line in range(len(mo)):
         cell_A3.value = 'MO'
         cell_A4 = sheet_labels.cell(row=1, column=4)
         cell_A4.value = 'PO'
-        cell_A5 = sheet_labels.cell(row=1, column=4)
+        cell_A5 = sheet_labels.cell(row=1, column=5)
         cell_A5.value = 'CO España'
-    if weekNumber == 0 or newWeek is True:
-        for qty in qty[line]:
-            rowTotal = rowTotal + qty + line
-            cell_itemNumber = sheet_labels.cell(row=1 + rowTotal, column=1)
+        weekNumber = week[line]
+        
+    if weekNumber == week[line]:
+        for item in range (0, qty[line]):
+            cell_itemNumber = sheet_labels.cell(row=2 + rowTotal, column=1)
             cell_itemNumber.value = itemNumber[line]
-            cell_description = sheet_labels.cell(row=1 + rowTotal, column=2)
+            cell_description = sheet_labels.cell(row=2 + rowTotal, column=2)
             cell_description.value = itemName[line]
-            
+            cell_mo = sheet_labels.cell(row=2 + rowTotal, column=3)
+            cell_mo.value = mo[line]
+            cell_po = sheet_labels.cell(row=2 + rowTotal, column=4)
+            cell_po.value = po[line]
+            cell_co = sheet_labels.cell(row=2 + rowTotal, column=5)
+            cell_co.value = co[line]
+            rowTotal = rowTotal + 1
         
             
-    
-    
-
-
-
-        
