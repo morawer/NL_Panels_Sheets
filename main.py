@@ -58,7 +58,7 @@ for line in range(len(mo)):
         except:
             msg_error(co, line, mo)
 
-for line in range(len(mo)):
+for line in range(len(co)):
     if weekNumber != week[line]:
         if weekNumber != 0:
             excel_labels.save(f'ETIQUETAS SEMANA {weekNumber}.xlsx')
