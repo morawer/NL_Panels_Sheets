@@ -13,10 +13,11 @@ moNew = 0
 newWeek = False
 weekNumber = 0
 rowTotal = 0
+sheetAcum = 0
 
 def msg_error(co, line, mo):
     print("===========================================================================")
-    print("   |>>> ERROR AL CREAR ==> CO: " + str(co[line]) + "_ MO:" + str(mo[line]) + " <<<|  ")
+    print("         |>>> ERROR AL CREAR ==> CO: " + str(co[line]) + "_ MO:" + str(mo[line]) + " <<<|  ")
     print("===========================================================================")
 
 #Destination folder of PDF sheets and Excel files created
@@ -53,19 +54,23 @@ for line in range(len(mo)):
             pdf_panelsNL.drawCentredString(width/2, height - 340, "MO: " + str(mo[line]))
             pdf_panelsNL.drawCentredString(width/2, height - 460, 'HOLANDA')
             pdf_panelsNL.save()
-
+            print(str(mo[line]) + "_" + "PanelsNL" + ".pdf >>>>> SHEET CREATED")
             moNew = mo[line]
+            sheetAcum = sheetAcum + 1
         except:
             msg_error(co, line, mo)
+            
+print(f'>>> It have been created {sheetAcum} sheets. <<<')
 
 for line in range(len(co)):
     if weekNumber != week[line]:
         if weekNumber != 0:
-            excel_labels.save(f'ETIQUETAS SEMANA {weekNumber}.xlsx')
+            excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
             rowTotal = 0  
         #Create the excel
         excel_labels = openpyxl.Workbook()
         sheet_labels = excel_labels.active
+        lastRow = sheet_labels.max_row
         #Write the title in every column
         cell_A1 = sheet_labels.cell(row=1, column=1)
         cell_A1.value = 'Item Nr'
@@ -92,5 +97,7 @@ for line in range(len(co)):
             cell_co = sheet_labels.cell(row=2 + rowTotal, column=5)
             cell_co.value = co[line]
             rowTotal = rowTotal + 1
+    if line == lastRow:
+        excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
         
             
