@@ -40,7 +40,7 @@ po = df["Order no PO"].values
 date = df["New Date ES"].values
 qty = df["Ordered qty"].values
 week = df["Week"].values
-
+lastRow = len(df.index)
 for line in range(len(mo)):
     if mo[line] != moNew:
         try:
@@ -70,7 +70,6 @@ for line in range(len(co)):
         #Create the excel
         excel_labels = openpyxl.Workbook()
         sheet_labels = excel_labels.active
-        lastRow = sheet_labels.max_row
         #Write the title in every column
         cell_A1 = sheet_labels.cell(row=1, column=1)
         cell_A1.value = 'Item Nr'
@@ -97,7 +96,7 @@ for line in range(len(co)):
             cell_co = sheet_labels.cell(row=2 + rowTotal, column=5)
             cell_co.value = co[line]
             rowTotal = rowTotal + 1
-    if line == lastRow:
+    if line == lastRow-1:
         excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
         
             
