@@ -23,7 +23,7 @@ def fileSelection():
     root = tk.Tk()
     root.withdraw()
     file_path = filedialog.askopenfilename()
-    return
+    return file_path
 
 def msg_error(co, line, mo):
     print("===========================================================================")
@@ -33,13 +33,15 @@ def msg_error(co, line, mo):
 #Destination folder of PDF sheets and Excel files created
 pathDestination = "/home/dani/Projects/NL_Panels_Sheets/destination/"
 
-#The info input is trough of excel file
-excel = fileSelection()
-df = pd.read_excel(excel, sheet_name="Database")
-
 #If destination folder does not exist, the folder is created automatically
 if not os.path.exists(pathDestination):
     os.makedirs(pathDestination)
+    os.makedirs(pathDestination + 'etiquetas/')
+
+#The info input is trough of excel file
+excel = fileSelection()
+print(excel)
+df = pd.read_excel(excel, sheet_name="Database")
 
 #In "Overview panels ESP 0426.xlsx" file we get in variables the differents columns values we need.
 mo = df["Ref order no"].values
