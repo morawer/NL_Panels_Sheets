@@ -74,6 +74,7 @@ for line in range(len(mo)):
             msg_error(co, line, mo)
             
 print(f'>>> It have been created {sheetAcum} sheets. <<<')
+print('*******************************************')
 
 for line in range(len(co)):
     if weekNumber != week[line]:
