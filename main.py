@@ -17,6 +17,7 @@ newWeek = False
 weekNumber = 0
 rowTotal = 0
 sheetAcum = 0
+panelsAcum = 0
 
 #Function to select the excel we want to extract the data.
 def fileSelection():
@@ -79,6 +80,8 @@ for line in range(len(co)):
         if weekNumber != 0:
             excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
             rowTotal = 0  
+            print(f'>>> WEEK {weekNumber} >>> {panelsAcum} panels')
+            panelsAcum = 0
         #Create the excel
         excel_labels = openpyxl.Workbook()
         sheet_labels = excel_labels.active
@@ -108,7 +111,11 @@ for line in range(len(co)):
             cell_co = sheet_labels.cell(row=2 + rowTotal, column=5)
             cell_co.value = co[line]
             rowTotal = rowTotal + 1
+            panelsAcum = panelsAcum + 1
+
     if line == lastRow-1:
         excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
+        print(f'>>> WEEK {weekNumber} >>> {panelsAcum} panels')
+        panelsAcum = 0
         
             
