@@ -1,7 +1,10 @@
 import os
+import tkinter as tk
+from tkinter import filedialog
+
+import openpyxl
 import pandas as pd
 from reportlab.pdfgen import canvas
-import openpyxl
 
 #Sheets sizes
 width = 841
@@ -15,6 +18,13 @@ weekNumber = 0
 rowTotal = 0
 sheetAcum = 0
 
+#Function to select the excel we want to extract the data.
+def fileSelection():
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename()
+    return
+
 def msg_error(co, line, mo):
     print("===========================================================================")
     print("         |>>> ERROR AL CREAR ==> CO: " + str(co[line]) + "_ MO:" + str(mo[line]) + " <<<|  ")
@@ -24,8 +34,8 @@ def msg_error(co, line, mo):
 pathDestination = "/home/dani/Projects/NL_Panels_Sheets/destination/"
 
 #The info input is trough of excel file
-excel = "/home/dani/Projects/NL_Panels_Sheets/excel/Overview panels ESP 0426.xlsx"
-df = pd.read_excel(excel, sheet_name="Database 20220421")
+excel = fileSelection()
+df = pd.read_excel(excel, sheet_name="Database")
 
 #If destination folder does not exist, the folder is created automatically
 if not os.path.exists(pathDestination):
