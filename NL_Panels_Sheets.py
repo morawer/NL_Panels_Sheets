@@ -37,11 +37,12 @@ pathDestination = "U:/OPERACIONES/08 FÁBRICA/2 PANELES HOLANDA/"
 #If destination folder does not exist, the folder is created automatically
 if not os.path.exists(pathDestination):
     os.makedirs(pathDestination)
+
+if not os.path.exists(pathDestination + 'ETIQUETAS/'):
     os.makedirs(pathDestination + 'ETIQUETAS/')
 
 #The info input is trough of excel file
 excel = fileSelection()
-print(excel)
 df = pd.read_excel(excel, sheet_name="Database")
 
 #In "Overview panels ESP 0426.xlsx" file we get in variables the differents columns values we need.
@@ -79,7 +80,7 @@ print('*******************************************')
 for line in range(len(co)):
     if weekNumber != week[line]:
         if weekNumber != 0:
-            excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
+            excel_labels.save(f'{pathDestination}ETIQUETAS/ETIQUETAS SEMANA {weekNumber}.xlsx')
             rowTotal = 0  
             print(f'>>> WEEK {weekNumber} >>> {panelsAcum} panels')
             panelsAcum = 0
