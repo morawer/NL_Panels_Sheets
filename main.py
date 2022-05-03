@@ -32,12 +32,12 @@ def msg_error(co, line, mo):
     print("===========================================================================")
 
 #Destination folder of PDF sheets and Excel files created
-pathDestination = "/home/dani/Projects/NL_Panels_Sheets/destination/"
+pathDestination = "U:/OPERACIONES/08 FÁBRICA/2 PANELES HOLANDA/"
 
 #If destination folder does not exist, the folder is created automatically
 if not os.path.exists(pathDestination):
     os.makedirs(pathDestination)
-    os.makedirs(pathDestination + 'etiquetas/')
+    os.makedirs(pathDestination + 'ETIQUETAS/')
 
 #The info input is trough of excel file
 excel = fileSelection()
@@ -115,7 +115,7 @@ for line in range(len(co)):
             panelsAcum = panelsAcum + 1
 
     if line == lastRow-1:
-        excel_labels.save(f'{pathDestination}etiquetas/ETIQUETAS SEMANA {weekNumber}.xlsx')
+        excel_labels.save(f'{pathDestination}ETIQUETAS/ETIQUETAS SEMANA {weekNumber}.xlsx')
         print(f'>>> WEEK {weekNumber} >>> {panelsAcum} panels')
         panelsAcum = 0
         
